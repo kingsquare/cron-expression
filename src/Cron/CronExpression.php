@@ -288,6 +288,7 @@ class CronExpression
 
         // Set a hard limit to bail on an impossible date
         for ($i = 0; $i < 1000; $i++) {
+            start_of_cycle:
 
             foreach ($parts as $position => $part) {
                 $part = $this->getExpression($position);
@@ -313,7 +314,7 @@ class CronExpression
                 // If the field is not satisfied, then start over
                 if (!$satisfied) {
                     $field->increment($nextRun, $invert);
-                    continue 2;
+                    goto start_of_cycle;
                 }
             }
 
